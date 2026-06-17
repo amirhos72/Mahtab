@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Mahtab 🌙</title>
+    <!-- Beautiful Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --space-dark: #000000; /* Pure Black background */
+            --moon-glow: #fef3c7;
+            --soft-gold: #f59e0b;
+            --soft-pink: #fda4af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent; /* Prevents gray highlight on touch */
+        }
+
+        body {
+            background-color: var(--space-dark);
+            color: #f8fafc;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Prevents scrolling when button moves */
+            position: relative;
+            padding: 1rem;
+        }
+
+        /* Twinkling Star Background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        /* Container Card */
+        .card {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 2.5rem 1.5rem;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            position: relative;
+            animation: fadeIn 1.2s ease-out;
+            touch-action: none; /* Prevents default zooming/scrolling issues inside the card */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glowing Moon Element */
+        .moon-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .moon {
+            width: 85px;
+            height: 85px;
+            background: radial-gradient(circle at 30% 30%, #ffffff, var(--moon-glow));
+            border-radius: 50%;
+            box-shadow: 0 0 25px rgba(254, 243, 199, 0.35), 
+                        0 0 50px rgba(254, 243, 199, 0.15);
+            animation: float 4s ease-in-out infinite;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 2.8rem;
+            color: var(--moon-glow);
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 12px rgba(254, 243, 199, 0.25);
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            margin-bottom: 1.2rem;
+        }
+
+        p.highlight {
+            font-style: italic;
+            color: var(--soft-pink);
+            font-weight: 500;
+        }
+
+        /* Interactive Buttons Container */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.8rem;
+            min-height: 55px;
+            /* Note: relative positioning removed here so the absolute 'No' button references the .card borders directly */
+        }
+
+        button {
+            padding: 0.75rem 1.6rem;
+            border-radius: 50px;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, var(--soft-pink), #f43f5e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+            z-index: 11;
+        }
+
+        .btn-no {
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 12;
+            transition: left 0.2s ease-out, top 0.2s ease-out; /* Smooth slide away */
+        }
+
+        /* Success screen */
+        .hidden {
+            display: none !important;
+        }
+
+        .success-content h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 2.6rem;
+            color: var(--soft-pink);
+            margin-bottom: 1rem;
+        }
+
+        /* Shooting Star effect on success */
+        .shooting-star {
+            position: absolute;
+            width: 80px;
+            height: 1.5px;
+            background: linear-gradient(90deg, white, transparent);
+            animation: shoot 2.2s linear infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; }
+            100% { transform: translateX(-250px) translateY(250px) rotate(-45deg); opacity: 0; }
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .card {
+                padding: 2rem 1.2rem;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+            p {
+                font-size: 0.95rem;
+            }
+            button {
+                padding: 0.7rem 1.4rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars" id="starContainer"></div>
+
+    <div class="card" id="apologyCard">
+        <div class="moon-container">
+            <div class="moon" id="mainMoon" onclick="createSparkle(event)" ontouchstart="createSparkle(event)"></div>
+        </div>
+
+        <div id="originalContent">
+            <h1>To My Mahtab,</h1>
+            <p>I know I can get a little crazy sometimes. My temper can act like passing clouds, temporarily blocking out your light.</p>
+            <p class="highlight">But those clouds are gone now, and I am so, so sorry.</p>
+            <p>Can we clear the sky and let your light shine again?</p>
+
+            <div class="button-group" id="buttonArea">
+                <button class="btn-yes" id="yesBtn" onclick="acceptApology()" ontouchstart="acceptApology()">Yes, I forgive you</button>
+                <button class="btn-no" id="noBtn" onmouseover="dodgeButton(event)" ontouchstart="dodgeButton(event)" onclick="dodgeButton(event)">No</button>
+            </div>
+        </div>
+
+        <div id="successContent" class="success-content hidden">
+            <h2>Thank you, my Moon! 🌙✨</h2>
+            <p>I promise to keep the skies clear and appreciate your light every single day.</p>
+            <p style="color: var(--soft-pink); font-size: 1.25rem; font-family: 'Caveat', cursive;">I love you to the moon and back!</p>
+        </div>
+    </div>
+
+    <script>
+        // Generate Starry Background Dynamically
+        const starContainer = document.getElementById('starContainer');
+        const numberOfStars = 50;
+
+        for (let i = 0; i < numberOfStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            const size = Math.random() * 2.5;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 3}s`;
+            star.style.animationDuration = `${2 + Math.random() * 3}s`;
+
+            starContainer.appendChild(star);
+        }
+
+        // Playful No Button Logic
+        const noBtn = document.getElementById('noBtn');
+        const phrases = [
+            "Are you sure? 🥺",
+            "Try again! 😉",
+            "But I bought chocolates? 🍫",
+            "Pretty please? 🙏",
+            "I'm sorry! ❤️",
+            "No is not an option!"
+        ];
+        let phraseIndex = 0;
+
+        function dodgeButton(e) {
+            // Prevent scrolling/tap-zooming on mobile touch
+            if (e) {
+                e.preventDefault();
+            }
+
+            const card = document.getElementById('apologyCard');
+            const cardRect = card.getBoundingClientRect();
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            
+            // Define strict safety margins relative to the card boundaries
+            const padding = 20;
+            const maxX = Math.max(10, cardRect.width - btnWidth - (padding * 2));
+            const maxY = Math.max(10, cardRect.height - btnHeight - (padding * 2));
+            
+            // Keep the button in the bottom 50% area of the card so it doesn't overlap text/moon
+            const minY = Math.max(10, cardRect.height * 0.52);
+
+            // Calculate precise safe coordinates
+            const randomX = Math.random() * maxX + padding;
+            const randomY = minY + Math.random() * Math.max(10, (maxY - minY));
+
+            // Apply absolute position relative directly to .card (our ancestor container)
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+
+            // Change text dynamically
+            noBtn.innerText = phrases[phraseIndex];
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+        }
+
+        // Yes Button Logic
+        function acceptApology() {
+            document.getElementById('originalContent').classList.add('hidden');
+            document.getElementById('successContent').classList.remove('hidden');
+            
+            const moon = document.getElementById('mainMoon');
+            moon.style.boxShadow = "0 0 35px rgba(254, 243, 199, 0.7), 0 0 70px rgba(254, 243, 199, 0.5)";
+            moon.style.transform = "scale(1.15)";
+            
+            triggerShootingStars();
+        }
+
+        // Gentle interactive sparkles
+        function createSparkle(e) {
+            // Support touch positions as well as mouse clicks
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            if (!clientX || !clientY) return;
+
+            const sparkle = document.createElement('div');
+            sparkle.innerText = "✨";
+            sparkle.style.position = 'absolute';
+            sparkle.style.left = `${clientX}px`;
+            sparkle.style.top = `${clientY}px`;
+            sparkle.style.fontSize = '1.3rem';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '100';
+            sparkle.style.transition = 'transform 0.8s, opacity 0.8s';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.style.transform = 'translateY(-25px) scale(1.4)';
+                sparkle.style.opacity = '0';
+            }, 50);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 800);
+        }
+
+        // Shooting stars on success
+        function triggerShootingStars() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const star = document.createElement('div');
+                    star.classList.add('shooting-star');
+                    star.style.right = `${Math.random() * 40}%`;
+                    star.style.top = `${Math.random() * 30}%`;
+                    star.style.animationDelay = `${Math.random() * 0.4}s`;
+                    document.body.appendChild(star);
+                    
+                    setTimeout(() => star.remove(), 2200);
+                }, i * 400);
+            }
+        }
+    </script>
+</body>
+</html>
